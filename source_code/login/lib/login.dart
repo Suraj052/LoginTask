@@ -24,6 +24,8 @@ class _LoginState extends State<Login> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  bool isHidden = true;
+
 
   @override
   void dispose() {
@@ -125,13 +127,17 @@ class _LoginState extends State<Login> {
                           padding: EdgeInsets.only(left: 20.0),
                           child: TextFormField(
                             controller: passwordController,
-                            obscureText: true,
+                            obscureText: isHidden,
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             validator: (value) =>
                             value != null && value.length<6
                                 ?'Enter minimum 6 chracters'
                                 :null,
                             decoration: InputDecoration(
+                              suffixIcon: InkWell(
+                                  onTap: toggle,
+                                child: Icon(Icons.visibility),
+                              ),
                               border: InputBorder.none,
                               hintText: 'Password',
                             ),
@@ -205,6 +211,15 @@ class _LoginState extends State<Login> {
     );
   }
 
+
+  void toggle()
+  {
+
+    setState(() {
+      isHidden = !isHidden;
+    });
+  }
+
   Future signin() async
   {
     final isValid = formKey.currentState!.validate();
@@ -259,6 +274,8 @@ class _LoginState extends State<Login> {
     }
 
   }
+
+
 }
 
 
